@@ -1,22 +1,24 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
+USER root
+
 RUN apt-get update && apt-get install -y ubuntu-server
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt install -y wget
+RUN apt install -y wget openjdk-17-jdk
 
+# Keycloak directory
 WORKDIR /keycloak
-
-# installs 17.0.9
-RUN wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
-RUN tar -xvf jdk-17_linux-x64_bin.tar.gz -C /opt
-RUN rm -rf *.tar.gz
-RUN echo "export PATH=$PATH:/opt/jdk-17.0.9/bin" >> ~/.bashrc
-
 COPY . /keycloak
+RUN chmod -R 777 /keycloak
+
+# Keycloak
+RUN cp ./keycloak/deployment/keycloak.service /etc/systemd/system/keycloak.service
+RUN systemctl daemon reload
+RUN systemctl start keycloak.service
+RUN systemctl enable keycloak 
 
 # COPY sleep.sh sleep.sh
 RUN echo "sleep infinity" >> sleep.sh
 RUN chmod 777 sleep.sh
-
 ENTRYPOINT ["/bin/bash", "/keycloak/sleep.sh"]

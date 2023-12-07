@@ -1,0 +1,12 @@
+[Unit]
+Description=Keycloak
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=root
+ExecStart=/bin/sh /root/keycloak/deployment/dev.sh
+
+[Install]
+WantedBy=default.target
