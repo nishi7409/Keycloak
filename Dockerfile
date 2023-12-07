@@ -13,10 +13,7 @@ COPY . /keycloak
 RUN chmod -R 777 /keycloak
 
 # Keycloak
-RUN cp ./keycloak/deployment/keycloak.service /etc/systemd/system/keycloak.service
-RUN systemctl daemon reload
-RUN systemctl start keycloak.service
-RUN systemctl enable keycloak 
+RUN cp /keycloak/deployment/keycloak.service /etc/systemd/system/keycloak.service
 
 # COPY sleep.sh sleep.sh
 RUN echo "sleep infinity" >> sleep.sh

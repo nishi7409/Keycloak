@@ -11,11 +11,11 @@ rm -f keystore.jks
 # stuff
 
 echo "Starting Keycloak server (DEV)"
-sudo ./bin/kc.sh build
-sudo KEYCLOAK_ADMIN=$KEYCLOAK_ADMIN \
+./bin/kc.sh build
+
+KEYCLOAK_ADMIN=$KEYCLOAK_ADMIN \
     KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_ADMIN_PASSWORD \
     KC_HOSTNAME=$KC_HOSTNAME \
-    KC_HTTP_ENABLED=$KC_HTTP_ENABLED \
     ./bin/kc.sh start-dev \
     --hostname=$KC_HOSTNAME \
     --hostname-strict-backchannel=true \
